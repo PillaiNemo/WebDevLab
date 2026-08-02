@@ -1,1 +1,190 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ex No 3 - Working with CSS</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eef3f7;
+}
+.container {
+    width: 950px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    padding: 15px;
+}
+.header {
+    overflow: hidden;
+    background-color: #fdf6ec;
+    border-bottom: 2px solid #cfe0ef;
+    padding: 10px;
+}
+.header img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    float: left;
+}
+.header h1 {
+    font-family: "Times New Roman", serif;
+    text-align: right;
+    margin: 35px 20px 0 0;
+    color: #34495e;
+}
+.nav {
+    background-color: #eaf2f8;
+    border-bottom: 1px solid #cfe0ef;
+    margin-top: 10px;
+}
+.nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+}
+.nav ul li {
+    display: inline;
+    margin: 0 25px;
+}
+.nav ul li a {
+    text-decoration: none;
+    color: #2e6da4;
+    font-weight: bold;
+}
+.intro {
+    overflow: hidden;
+    margin-top: 15px;
+}
+.intro p {
+    display: block;
+    width: 60%;
+    height: 90px;
+    float: left;
+    background-color: #f7fbff;
+    border: 1px solid #cfe0ef;
+    padding: 15px;
+    color: #34495e;
+}
+.tech-row {
+    clear: both;
+    margin-top: 15px;
+}
+.tech-row ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.tech-row ul li {
+    display: block;
+    float: left;
+    width: 24.25%;
+    height: 70px;
+    margin-right: 1%;
+    text-align: center;
+    color: #ffffff;
+    padding-top: 15px;
+    font-weight: bold;
+}
+.tech-row ul li:last-child { margin-right: 0; }
+.html5 { background-color: #4a90a4; }
+.css3 { background-color: #6c8ebf; }
+.js { background-color: #8fa9c4; }
+.php { background-color: #7e9bb5; }
+.family-row {
+    clear: both;
+    overflow: hidden;
+    background-color: #eaf2f8;
+    border: 1px solid #cfe0ef;
+    padding: 15px;
+    margin-top: 15px;
+}
+.family-row .member {
+    width: 31%;
+    float: left;
+    margin-right: 3%;
+    text-align: center;
+    color: #34495e;
+}
+.family-row .member:last-child { margin-right: 0; }
+.family-row .member img {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+.family-row .member .name {
+    height: 20px;
+    font-weight: bold;
+    margin: 10px 0 5px 0;
+}
+.family-row .member .quote {
+    font-size: 13px;
+    padding: 0 8px;
+    margin: 0;
+}
+.footer {
+    clear: both;
+    background-color: #eaf2f8;
+    border-top: 1px solid #cfe0ef;
+    padding: 10px 15px;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #34495e;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="kid.jfif" alt="Profile Photo">
+        <h1>Ms. Namrata Pillai</h1>
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="#personal">Personal</a></li>
+            <li><a href="#academic">Academic</a></li>
+            <li><a href="#activity">Activity</a></li>
+            <li><a href="#others">Others</a></li>
+        </ul>
+    </div>
+    <div class="intro">
+        <p>Hi, I am Namrata Pillai, a student pursuing Computer Science at Karunya Institute of Technology
+        and Sciences. I enjoy working with data and building web pages, and I am always looking to learn
+        new tools and technologies.</p>
+    </div>
+    <div class="tech-row">
+        <ul>
+            <li class="html5">HTML5</li>
+            <li class="css3">CSS3</li>
+            <li class="js">Javascript</li>
+            <li class="php">PHP</li>
+        </ul>
+    </div>
+    <div class="family-row">
+        <div class="member">
+            <img src="father.jpg" alt="Father">
+            <p class="name">MR. HARISH</p>
+            <p class="quote">It was my father who taught me to value myself and believe in my own abilities.</p>
+        </div>
+        <div class="member">
+            <img src="mother.jpg" alt="Mother">
+            <p class="name">MRS. LINI</p>
+            <p class="quote">My mother taught me that we all have the power to achieve our dreams.</p>
+        </div>
+        <div class="member">
+            <img src="sister.PNG" alt="Sibling">
+            <p class="name">MS. NEHA</p>
+            <p class="quote">A sibling is both your mirror and your opposite.</p>
+        </div>
+    </div>
+    <div class="footer">
+        <p>KODAIKANAL - KARUNYA INSTITUTE OF TECHNOLOGY AND SCIENCES</p>
+        <p>2026-2027</p>
+        <p>Web Tech Lab</p>
+    </div>
+</div>
+</body>
+</html>

@@ -81,19 +81,24 @@ body {
 .tech-row ul li {
     display: block;
     float: left;
-    width: 24.25%;
-    height: 70px;
+    width: 24%;
+    height: 120px;
     margin-right: 1%;
     text-align: center;
-    color: #ffffff;
-    padding-top: 15px;
+    background-color: #f7fbff;
+    border: 1px solid #cfe0ef;
+    padding-top: 10px;
+}
+.tech-row ul li img {
+    height: 70px;
+    width: 70px;
+}
+.tech-row ul li p {
+    margin: 5px 0 0 0;
+    color: #34495e;
     font-weight: bold;
 }
 .tech-row ul li:last-child { margin-right: 0; }
-.html5 { background-color: #4a90a4; }
-.css3 { background-color: #6c8ebf; }
-.js { background-color: #8fa9c4; }
-.php { background-color: #7e9bb5; }
 .family-row {
     clear: both;
     overflow: hidden;
@@ -139,7 +144,7 @@ body {
 <body>
 <div class="container">
     <div class="header">
-        <img src="kid.jfif" alt="Profile Photo">
+        <img src="kid.jpg" alt="Profile Photo">
         <h1>Ms. Namrata Pillai</h1>
     </div>
     <div class="nav">
@@ -157,10 +162,10 @@ body {
     </div>
     <div class="tech-row">
         <ul>
-            <li class="html5">HTML5</li>
-            <li class="css3">CSS3</li>
-            <li class="js">Javascript</li>
-            <li class="php">PHP</li>
+            <li><img src="html5.jpg" alt="HTML5"><p>HTML5</p></li>
+            <li><img src="css3.jpg" alt="CSS3"><p>CSS3</p></li>
+            <li><img src="js.jpg" alt="Javascript"><p>Javascript</p></li>
+            <li><img src="php.jpg" alt="PHP"><p>PHP</p></li>
         </ul>
     </div>
     <div class="family-row">
@@ -175,7 +180,7 @@ body {
             <p class="quote">My mother taught me that we all have the power to achieve our dreams.</p>
         </div>
         <div class="member">
-            <img src="sister.PNG" alt="Sibling">
+            <img src="sister.png" alt="Sibling">
             <p class="name">MS. NEHA</p>
             <p class="quote">A sibling is both your mirror and your opposite.</p>
         </div>

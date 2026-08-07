@@ -1,1 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cocoa & Co. — Fine Chocolates</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Poppins', Arial, sans-serif; background-color: #fbf4ee; color: #3b241a; }
+  h1, h2, h3 { font-family: 'Playfair Display', serif; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  .hero {
+    width: 100%; min-height: 340px; display: flex; align-items: center; padding: 60px 0;
+    background-image: linear-gradient(120deg, rgba(20,10,6,0.88), rgba(30,15,8,0.55) 55%, rgba(20,10,6,0.85)), url('heroback.jpg');
+    background-size: cover; background-position: center;
+  }
+  .hero-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+  .logo-box { display: flex; align-items: center; gap: 20px; }
+  .logo-icon {
+    width: 62px; height: 62px; background-color: #c98a3e; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+  }
+  .hero h1 { font-size: 38px; color: #f6e9dd; letter-spacing: 0.5px; }
+  .hero .kicker { font-size: 13px; color: #e3c197; letter-spacing: 2px; text-transform: uppercase; margin-top: 6px; }
+  .hero .tagline {
+    max-width: 260px; text-align: right; font-size: 14px; color: #e8d3b8; font-style: italic;
+    border-left: 1px solid rgba(255,255,255,0.25); padding-left: 22px; line-height: 1.5;
+  }
+
+  .navbar { background-color: #2a1810; display: flex; justify-content: center; gap: 6px; padding: 8px 40px; }
+  .navbar a { padding: 12px 24px; color: #d8b48a; text-decoration: none; font-weight: 500; font-size: 14px; border-radius: 999px; }
+  .navbar a.active { background-color: #c98a3e; color: #2a1810; font-weight: 600; }
+  .navbar a:hover:not(.active) { background-color: #3b241a; color: #f6e9dd; }
+
+  .favourites { padding: 60px 0; }
+  .fav-heading { text-align: center; margin-bottom: 40px; }
+  .fav-heading span { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #c98a3e; font-weight: 600; }
+  .fav-heading h2 { font-size: 30px; margin-top: 8px; }
+  .fav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .fav-card {
+    background-color: #ffffff; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 8px 20px rgba(59,36,26,0.1); transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .fav-card:hover { transform: translateY(-5px); box-shadow: 0 16px 28px rgba(59,36,26,0.18); }
+  .fav-card img { width: 100%; height: 130px; object-fit: cover; display: block; }
+  .fav-info { padding: 16px 16px 18px; }
+  .fav-info h3 { font-size: 15px; margin-bottom: 6px; }
+  .fav-info p { font-size: 12px; color: #8a6a55; margin-bottom: 12px; line-height: 1.4; min-height: 34px; }
+  .fav-price { display: inline-block; background-color: #3b241a; color: #f6e9dd; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+
+  .craft {
+    width: 100%; min-height: 260px; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 50px 20px;
+    background-image: linear-gradient(0deg, rgba(20,10,6,0.75), rgba(20,10,6,0.25)), url('ourcraft.PNG');
+    background-size: cover; background-position: center;
+  }
+  .craft-inner { max-width: 560px; }
+  .craft span { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #e3c197; font-weight: 600; }
+  .craft h2 { font-size: 28px; color: #fbf4ee; margin: 10px 0 12px; }
+  .craft p { font-size: 14px; color: #e8d3b8; line-height: 1.6; }
+
+  .auth-section { background-color: #2a1810; padding: 55px 0; background-image: radial-gradient(circle at 80% 0%, rgba(201,138,62,0.18), transparent 55%); }
+  .auth-heading { text-align: center; color: #f6e9dd; margin-bottom: 32px; }
+  .auth-heading span { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #c98a3e; font-weight: 600; }
+  .auth-heading h2 { font-size: 26px; margin-top: 6px; }
+  .auth-grid { display: flex; justify-content: center; gap: 26px; flex-wrap: wrap; }
+  .auth-box { background-color: #fbf4ee; width: 290px; padding: 28px 26px; border-radius: 14px; box-shadow: 0 10px 24px rgba(0,0,0,0.25); }
+  .auth-box h3 { text-align: center; margin-bottom: 4px; font-size: 19px; }
+  .auth-box .sub { text-align: center; font-size: 12px; color: #8a6a55; margin-bottom: 20px; }
+  .auth-box label {
+    display: block; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px;
+    font-weight: 600; margin-bottom: 6px; color: #6b4a35;
+  }
+  .auth-box input {
+    width: 100%; padding: 11px 12px; margin-bottom: 16px; border: 1px solid #e6d5c3;
+    border-radius: 8px; font-size: 13.5px; background-color: #ffffff; font-family: 'Poppins', sans-serif;
+  }
+  .auth-box input:focus { outline: none; border-color: #c98a3e; }
+  .auth-box button { width: 100%; padding: 12px; background-color: #c98a3e; color: #2a1810; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .auth-box button:hover { background-color: #b3742e; }
+  .auth-box.signup button { background-color: #3b241a; color: #f6e9dd; }
+  .auth-box.signup button:hover { background-color: #2a1810; }
+
+  footer { background-color: #1c110b; padding: 22px 0; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12.5px; color: #a9876d; }
+  footer .addr { color: #d8b48a; font-family: 'Playfair Display', serif; font-size: 14px; }
+
+  @media (max-width: 760px) {
+    .wrap { padding: 0 20px; }
+    .hero-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .hero .tagline { border-left: none; padding-left: 0; text-align: left; }
+    .navbar { flex-wrap: wrap; padding: 8px 16px; }
+    .fav-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 460px) { .fav-grid { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="wrap hero-inner">
+      <div class="logo-box">
+        <div class="logo-icon">🍫</div>
+        <div>
+          <h1>Cocoa &amp; Co.</h1>
+          <p class="kicker">Fine Chocolates</p>
+        </div>
+      </div>
+      <div class="tagline">Small-batch bars, poured and set by hand since 2018</div>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <a href="#" class="active">Home</a>
+    <a href="#">About</a>
+    <a href="#">Menu</a>
+    <a href="#">Others</a>
+  </div>
+
+  <div class="favourites">
+    <div class="wrap">
+      <div class="fav-heading">
+        <span>Bestsellers</span>
+        <h2>Our Favourites</h2>
+      </div>
+
+      <div class="fav-grid">
+        <div class="fav-card">
+          <img src="dark.PNG" alt="Dark 70% Single Origin chocolate bar">
+          <div class="fav-info">
+            <h3>Dark 70% Single Origin</h3>
+            <p>Ecuadorian cacao, smooth and deep with a hint of cherry.</p>
+            <span class="fav-price">₹280</span>
+          </div>
+        </div>
+
+        <div class="fav-card">
+          <img src="hazelnut.jpg" alt="Hazelnut Praline Bar">
+          <div class="fav-info">
+            <h3>Hazelnut Praline Bar</h3>
+            <p>Milk chocolate shell over a crunchy roasted hazelnut core.</p>
+            <span class="fav-price">₹260</span>
+          </div>
+        </div>
+
+        <div class="fav-card">
+          <img src="salted.PNG" alt="Salted Caramel Truffles">
+          <div class="fav-info">
+            <h3>Salted Caramel Truffles</h3>
+            <p>Box of six, hand-rolled with a soft caramel centre.</p>
+            <span class="fav-price">₹320</span>
+          </div>
+        </div>
+
+        <div class="fav-card">
+          <img src="chilli.PNG" alt="Chilli and Orange Dark chocolate">
+          <div class="fav-info">
+            <h3>Chilli &amp; Orange Dark</h3>
+            <p>A slow, warm heat behind bright candied orange peel.</p>
+            <span class="fav-price">₹290</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="craft">
+    <div class="craft-inner">
+      <span>Our Craft</span>
+      <h2>Tempered slow, snapped by hand</h2>
+      <p>Every bar rests for 48 hours before it's wrapped — enough time for the cocoa butter to set into that clean, glossy snap.</p>
+    </div>
+  </div>
+
+  <div class="auth-section">
+    <div class="wrap">
+      <div class="auth-heading">
+        <span>Members Table</span>
+        <h2>Sign in for early tastings</h2>
+      </div>
+
+      <div class="auth-grid">
+        <div class="auth-box signin">
+          <h3>Sign In</h3>
+          <p class="sub">Welcome back to the table</p>
+          <form>
+            <label for="si-user">Username</label>
+            <input type="text" id="si-user" placeholder="Enter Username / Email / Phone Number">
+            <label for="si-pass">Password</label>
+            <input type="password" id="si-pass" placeholder="Enter Password">
+            <button type="button">Sign In</button>
+          </form>
+        </div>
+
+        <div class="auth-box signup">
+          <h3>Sign Up</h3>
+          <p class="sub">New here? Pull up a seat</p>
+          <form>
+            <label for="su-name">Name</label>
+            <input type="text" id="su-name" placeholder="Enter Name">
+            <label for="su-email">Email</label>
+            <input type="email" id="su-email" placeholder="Enter Email">
+            <label for="su-pass">Password</label>
+            <input type="password" id="su-pass" placeholder="Enter Password">
+            <button type="button">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span class="addr">Karunya Institute of Technology and Sciences</span>
+      <span>&copy; 2026-2027. (URK24CS1171) - Web Technology Lab Batch 1. All Rights Reserved</span>
+    </div>
+  </footer>
+
+</body>
+</html>

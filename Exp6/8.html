@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic Background</title>
+<style>
+  body { font-family: system-ui, sans-serif; color: #1F2937; padding: 40px; transition: background-color 0.5s; }
+  .card { max-width: 420px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 28px 32px; text-align: center; }
+  h1 { font-size: 20px; margin-top: 0; }
+  p { font-size: 14px; color: #64748B; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Dynamic Background</h1>
+  <p>The page background changes every 30 seconds.</p>
+</div>
+
+<script>
+function setBackgroundColor() {
+  var red = Math.floor(Math.random() * 255);
+  var green = Math.floor(Math.random() * 255);
+  var blue = Math.floor(Math.random() * 255);
+  var color = "rgb(" + red + "," + green + "," + blue + ")";
+
+  document.getElementsByTagName("body")[0].style.backgroundColor = color;
+}
+
+setBackgroundColor();
+setInterval(setBackgroundColor, 30000);
+</script>
+</body>
+</html>

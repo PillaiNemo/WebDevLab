@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Font Size on Hover</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #F5F7FA; color: #1F2937; padding: 40px; }
+  .card { max-width: 420px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 28px 32px; }
+  h1 { font-size: 20px; margin-top: 0; }
+  #para1 { font-size: 16px; transition: font-size 0.2s; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Change Font Size</h1>
+  <p id="para1" onmouseover="incSize()" onmouseout="decSize()">
+    move cursor over me to zoom in...
+  </p>
+</div>
+
+<script>
+function incSize() {
+  document.getElementById("para1").style.fontSize = "28px";
+}
+
+function decSize() {
+  document.getElementById("para1").style.fontSize = "16px";
+}
+</script>
+</body>
+</html>

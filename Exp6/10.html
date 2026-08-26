@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Moving Car</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #F5F7FA; color: #1F2937; padding: 40px; }
+  .card { max-width: 600px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 28px 32px; }
+  h1 { font-size: 20px; margin-top: 0; }
+  .track { position: relative; height: 60px; border-bottom: 2px solid #E2E8F0; margin-bottom: 18px; }
+  #img { position: relative; left: 0px; font-size: 36px; }
+  button { background: #3B6E8F; color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-size: 14px; cursor: pointer; margin-right: 10px; }
+  button:hover { background: #2C5570; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Moving Car</h1>
+  <div class="track">
+    <span id="img">🚗</span>
+  </div>
+  <button onclick="moveRight();">Move</button>
+  <button onclick="stop();">Stop</button>
+</div>
+
+<script>
+var imgObj;
+var animate;
+
+function init() {
+  imgObj = document.getElementById('img');
+  imgObj.style.position = 'relative';
+  imgObj.style.left = '0px';
+}
+
+function moveRight() {
+  imgObj.style.left = parseInt(imgObj.style.left) + 1 + 'px';
+  animate = setTimeout(moveRight, 10);
+}
+
+function stop() {
+  clearTimeout(animate);
+}
+
+window.onload = init;
+</script>
+</body>
+</html>

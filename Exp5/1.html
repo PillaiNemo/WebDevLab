@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shortest and Longest Word</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #F5F7FA; color: #1F2937; padding: 40px; }
+  .card { max-width: 460px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 28px 32px; }
+  h1 { font-size: 20px; margin-top: 0; }
+  input[type=text] { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 14px; margin-bottom: 14px; }
+  button { background: #3B6E8F; color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-size: 14px; cursor: pointer; }
+  button:hover { background: #2C5570; }
+  .result { margin-top: 18px; font-size: 15px; line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Shortest &amp; Longest Word Finder</h1>
+  <input type="text" id="sentence" value="Web Development Tutorial" />
+  <button onclick="findShortestLongest();">Find Words</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+function findShortestLongest() {
+  var str = document.getElementById("sentence").value;
+  var words = str.split(' ');
+  var shortest = words[0];
+  var longest = words[0];
+
+  for (var i = 1; i < words.length; i++) {
+    if (words[i].length < shortest.length) shortest = words[i];
+    if (words[i].length > longest.length) longest = words[i];
+  }
+
+  document.getElementById("result").innerHTML =
+    "Shortest: '" + shortest + "'<br>Longest: '" + longest + "'";
+}
+
+findShortestLongest();
+</script>
+</body>
+</html>

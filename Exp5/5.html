@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coin Flip</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #F5F7FA; color: #1F2937; padding: 40px; }
+  .card { max-width: 380px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 28px 32px; text-align: center; }
+  h1 { font-size: 20px; margin-top: 0; }
+  #coin { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #E2E8F0; object-fit: cover; margin-bottom: 16px; }
+  button { background: #3B6E8F; color: #fff; border: none; padding: 9px 20px; border-radius: 6px; font-size: 14px; cursor: pointer; }
+  button:hover { background: #2C5570; }
+  p { font-size: 14px; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Heads or Tails?</h1>
+  <div>
+    <img src="heads.jpg" id="coin" /> <br />
+    <button id="flip">Flip!</button>
+  </div>
+  <p>
+    Heads Total: <span id="num_heads">0</span><br />
+    Tails Total: <span id="num_tails">0</span>
+  </p>
+</div>
+
+<script>
+var headsCount = 0;
+var tailsCount = 0;
+
+document.getElementById("flip").addEventListener("click", flipFunction);
+
+function flipFunction() {
+  var number = Math.floor(Math.random() * 2);
+
+  if (number === 0) {
+    document.getElementById("coin").src = "heads.jpg";
+    headsCount = headsCount + 1;
+    document.getElementById("num_heads").innerHTML = headsCount;
+  } else {
+    document.getElementById("coin").src = "tails.jpg";
+    tailsCount = tailsCount + 1;
+    document.getElementById("num_tails").innerHTML = tailsCount;
+  }
+}
+</script>
+</body>
+</html>

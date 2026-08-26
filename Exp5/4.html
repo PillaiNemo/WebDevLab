@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Currency Convertor</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #F5F7FA; color: #1F2937; padding: 40px; }
+  .card { max-width: 500px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 28px 32px; }
+  h1 { font-size: 20px; margin-top: 0; }
+  .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  input[type=text] { width: 100px; box-sizing: border-box; padding: 9px 10px; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 14px; }
+  select { padding: 8px; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 14px; }
+  button { background: #3B6E8F; color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-size: 14px; cursor: pointer; }
+  button:hover { background: #2C5570; }
+  .result { font-size: 16px; }
+  .result span { font-weight: 700; color: #2C5570; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Currency Convertor</h1>
+  <div class="row">
+    Convert
+    <input type="text" id="data" placeholder="e.g. 400" />
+    <select id="from">
+      <option>Indian Rupee</option>
+      <option>US Dollar</option>
+    </select>
+    to
+    <select id="to">
+      <option>US Dollar</option>
+      <option>Indian Rupee</option>
+    </select>
+    <button onclick="convert();">Calculate</button>
+  </div>
+  <div class="result">Result: <span id="answer"></span></div>
+</div>
+
+<script>
+function convert() {
+  var data = parseFloat(document.getElementById("data").value);
+
+  var fromIndex = document.getElementById("from").selectedIndex;
+  var fromValue = document.getElementById("from")[fromIndex].value;
+
+  var toIndex = document.getElementById("to").selectedIndex;
+  var toValue = document.getElementById("to")[toIndex].value;
+
+  var result;
+
+  if (fromValue === "Indian Rupee" && toValue === "US Dollar") {
+    result = data * 0.015;
+  } else if (fromValue === "US Dollar" && toValue === "Indian Rupee") {
+    result = data * 67.12;
+  } else {
+    result = data;
+  }
+
+  document.getElementById("answer").innerHTML = result.toFixed(2);
+}
+</script>
+</body>
+</html>

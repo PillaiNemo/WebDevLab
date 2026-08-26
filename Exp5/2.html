@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BMI Calculator</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #F5F7FA; color: #1F2937; padding: 40px; }
+  .card { max-width: 460px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 28px 32px; }
+  h1 { font-size: 20px; margin-top: 0; }
+  label { display: block; font-size: 13px; color: #64748B; margin-bottom: 5px; }
+  input[type=text] { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 14px; margin-bottom: 12px; }
+  button { background: #3B6E8F; color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-size: 14px; cursor: pointer; margin-top: 4px; }
+  button:hover { background: #2C5570; }
+  .result { margin-top: 18px; font-size: 15px; line-height: 1.9; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Calculate your Body Mass Index (BMI)!</h1>
+
+  <label for="weight">Weight (in kilograms)</label>
+  <input type="text" id="weight" />
+
+  <label for="height">Height (in meters)</label>
+  <input type="text" id="height" placeholder="e.g. 1.70" />
+
+  <button onclick="calculate();">Get BMI!</button>
+
+  <div class="result">
+    Your BMI is <span id="score"></span>.<br>
+    Your body type is <span id="type"></span>.
+  </div>
+</div>
+
+<script>
+function calculate() {
+  var weight = parseFloat(document.getElementById("weight").value);
+  var height = parseFloat(document.getElementById("height").value);
+
+  var bmi = weight / (height * height);
+
+  document.getElementById("score").innerHTML = bmi.toFixed(2);
+
+  var type;
+  if (bmi < 18) {
+    type = "Underweight";
+  } else if (bmi <= 25) {
+    type = "Normal";
+  } else if (bmi <= 30) {
+    type = "Overweight";
+  } else {
+    type = "Obese";
+  }
+
+  document.getElementById("type").innerHTML = type;
+}
+</script>
+</body>
+</html>

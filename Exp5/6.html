@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cake Order Form</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #F5F7FA; color: #1F2937; padding: 40px; }
+  .card { max-width: 420px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 28px 32px; }
+  h1 { font-size: 20px; margin-top: 0; }
+  .field { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  input[type=text] { width: 60px; box-sizing: border-box; padding: 7px 9px; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 14px; text-align: right; }
+  .tip-options { display: flex; gap: 14px; margin: 14px 0 18px 0; font-size: 14px; }
+  .tip-options label { display: flex; align-items: center; gap: 5px; }
+  button { background: #3B6E8F; color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-size: 14px; cursor: pointer; width: 100%; }
+  button:hover { background: #2C5570; }
+  .result { margin-top: 18px; font-size: 15px; }
+  .result span { font-weight: 700; color: #2C5570; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Cake Order Form</h1>
+
+  <div class="field">
+    <label for="small"># of 1/2kg Cakes</label>
+    <input type="text" id="small" value="0" />
+  </div>
+  <div class="field">
+    <label for="medium"># of 1kg Cakes</label>
+    <input type="text" id="medium" value="0" />
+  </div>
+  <div class="field">
+    <label for="large"># of 2kg Cakes</label>
+    <input type="text" id="large" value="0" />
+  </div>
+
+  <div class="tip-options">
+    Tip:
+    <label><input type="radio" value="10" name="tip" /> 10%</label>
+    <label><input type="radio" value="15" name="tip" checked="checked" /> 15%</label>
+    <label><input type="radio" value="20" name="tip" /> 20%</label>
+  </div>
+
+  <button id="submit">Calculate Order</button>
+
+  <div class="result">Cost of order: <span id="price"></span></div>
+</div>
+
+<script>
+document.getElementById("submit").addEventListener("click", calculateOrder);
+
+function calculateOrder() {
+  var small = parseInt(document.getElementById("small").value);
+  var medium = parseInt(document.getElementById("medium").value);
+  var large = parseInt(document.getElementById("large").value);
+
+  var baseCost = (small * 100) + (medium * 200) + (large * 400);
+  var afterTax = baseCost + (baseCost * 0.09);
+
+  var tip = document.querySelector('input[name="tip"]:checked').value;
+  var total = afterTax + (afterTax * (tip / 100));
+
+  document.getElementById("price").innerHTML = "Rs. " + total.toFixed(2);
+}
+</script>
+</body>
+</html>

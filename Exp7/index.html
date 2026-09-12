@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cake Shop</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+  body { font-family: Arial; text-align: center; }
+  h1 { background: red; color: white; padding: 10px; }
+  h2 { color: blue; }
+  .cake { display: inline-block; width: 150px; margin: 10px; }
+  .cake img { width: 120px; height: 100px; }
+  label { color: purple; font-weight: bold; }
+  input { width: 60px; }
+  button { padding: 8px 20px; background: dodgerblue; color: white; border: none; margin-top: 10px; }
+  .bill { background: green; color: white; padding: 10px; margin-top: 20px; }
+  .bill span { color: red; background: white; padding: 3px 10px; margin-left: 10px; }
+</style>
+</head>
+<body>
+
+<h1>CAKE SHOP</h1>
+
+<div class="cake">
+  <p>Color Cake - Rs.300</p>
+</div>
+<div class="cake">
+  <p>Brown Cake - Rs.200</p>
+</div>
+<div class="cake">
+  <p>Milky Cake - Rs.250</p>
+</div>
+<div class="cake">
+  <p>Black Forest Cake - Rs.350</p>
+</div>
+
+<h2>Order Cake</h2>
+
+<label>Color Cake (Quantity)</label><br>
+<input type="text" id="colorQty" value="0"><br><br>
+
+<label>Brown Cake (Quantity)</label><br>
+<input type="text" id="brownQty" value="0"><br><br>
+
+<label>Milky Cake (Quantity)</label><br>
+<input type="text" id="milkyQty" value="0"><br><br>
+
+<label>Black Forest Cake (Quantity)</label><br>
+<input type="text" id="blackQty" value="0"><br><br>
+
+<button id="btnPlaceOrder">Place Order</button>
+
+<h3>Purchase Order Bill!!!</h3>
+<div class="bill">Total Price <span id="totalPrice">Rs.0</span></div>
+
+<script>
+$(document).ready(function(){
+
+  // price of each cake
+  var colorPrice = 300;
+  var brownPrice = 200;
+  var milkyPrice = 250;
+  var blackPrice = 350;
+
+  $("#btnPlaceOrder").click(function(){
+
+    var colorQty = Number($("#colorQty").val());
+    var brownQty = Number($("#brownQty").val());
+    var milkyQty = Number($("#milkyQty").val());
+    var blackQty = Number($("#blackQty").val());
+
+    var total = (colorQty * colorPrice) +
+                (brownQty * brownPrice) +
+                (milkyQty * milkyPrice) +
+                (blackQty * blackPrice);
+
+    $("#totalPrice").text("Rs." + total);
+
+  });
+
+});
+</script>
+
+</body>
+</html>

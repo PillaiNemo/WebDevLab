@@ -46,7 +46,6 @@ $(document).ready(function(){
     var emergency = Number($("#emergency").val());
     var saving = Number($("#saving").val());
 
-    // check total percentage should be 100
     var total = rent + accessories + emergency + saving;
 
     if (total !== 100) {
@@ -54,13 +53,11 @@ $(document).ready(function(){
       return;
     }
 
-    // calculate each share
     var rentAmount = (amount * rent) / 100;
     var accessoriesAmount = (amount * accessories) / 100;
     var emergencyAmount = (amount * emergency) / 100;
     var savingAmount = (amount * saving) / 100;
 
-    // display results
     $("#rentResult").text(rentAmount);
     $("#accessoriesResult").text(accessoriesAmount);
     $("#emergencyResult").text(emergencyAmount);

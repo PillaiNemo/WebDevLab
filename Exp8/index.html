@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lab 4 - Product Card jQuery Effects</title>
+<title>Lab 5 - Employee Management Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
   :root {
@@ -12,8 +12,9 @@
     --text: #1f2430;
     --muted: #6b7280;
     --accent: #2563eb;
-    --accent-dark: #1e4fbe;
     --success: #16a34a;
+    --danger: #dc2626;
+    --selected: #eef2ff;
   }
   * { box-sizing: border-box; }
   body {
@@ -21,145 +22,205 @@
     background: var(--bg);
     color: var(--text);
     margin: 0;
-    padding: 40px 20px;
+    padding: 36px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   h1 { font-size: 1.4rem; margin-bottom: 4px; }
-  p.sub { color: var(--muted); margin-top: 0; margin-bottom: 28px; font-size: 0.9rem; }
+  p.sub { color: var(--muted); margin-top: 0; margin-bottom: 26px; font-size: 0.9rem; }
 
-  #product {
-    width: 320px;
+  .panel {
+    width: 620px;
+    max-width: 92vw;
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 22px 24px;
+    padding: 20px 24px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition: background 0.3s ease;
   }
-  #product h2 { margin: 0 0 6px 0; font-size: 1.2rem; }
-  #product .price { color: var(--accent-dark); font-weight: 600; font-size: 1.1rem; margin: 4px 0; }
-  #product .meta { font-size: 0.85rem; color: var(--muted); margin: 2px 0; }
-  #product .stock { display: inline-block; margin-top: 6px; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; background: #e7f8ee; color: var(--success); }
-  #product .desc { margin-top: 12px; font-size: 0.88rem; line-height: 1.4; color: #3a3f4b; }
+  .panel h3 { margin: 0 0 14px 0; font-size: 1rem; }
 
-  .controls {
-    margin-top: 26px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    max-width: 420px;
-    justify-content: center;
+  .form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .form-row input {
+    flex: 1;
+    min-width: 120px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.88rem;
   }
+
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
   button {
     border: 1px solid var(--border);
-    background: var(--card-bg);
+    background: #fff;
     color: var(--text);
-    padding: 9px 16px;
+    padding: 8px 14px;
     border-radius: 6px;
-    font-size: 0.85rem;
+    font-size: 0.83rem;
     cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
   }
   button:hover { background: #eef2ff; border-color: var(--accent); }
-  #stopBtn { color: #b91c1c; }
-  #stopBtn:hover { background: #fef2f2; border-color: #b91c1c; }
+  #removeBtn { color: var(--danger); }
+  #removeBtn:hover { background: #fef2f2; border-color: var(--danger); }
+  #addBtn { background: var(--accent); color: #fff; border-color: var(--accent); }
+  #addBtn:hover { background: #1e4fbe; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.88rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--muted); font-weight: 600; font-size: 0.8rem; }
+  tr.emp-row { cursor: pointer; }
+  tr.emp-row:hover { background: #fafbfe; }
+  tr.selected { background: var(--selected); }
 
   #status {
-    margin-top: 18px;
-    min-height: 20px;
+    margin-top: 14px;
+    min-height: 18px;
     font-size: 0.85rem;
     color: var(--success);
     font-weight: 600;
+  }
+  #dims {
+    margin-top: 4px;
+    font-size: 0.78rem;
+    color: var(--muted);
   }
 </style>
 </head>
 <body>
 
-<h1>Product Card - jQuery Effects</h1>
-<p class="sub">Lab Program 4: hide/show, fade, slide, animate, stop, callback, chaining</p>
+<h1>Employee Management Dashboard</h1>
+<p class="sub">Lab Program 5: jQuery Get / Set / Add / Remove / CSS classes / css() / Dimensions</p>
 
-<div id="product">
-  <h2>Laptop Pro</h2>
-  <div class="price">₹65,000</div>
-  <div class="meta">Category: Electronics</div>
-  <span class="stock">In Stock</span>
-  <div class="desc">
-    A powerful, lightweight laptop built for professionals. Features a fast processor,
-    long battery life, and a crisp display suited for both work and entertainment.
+<div class="panel" id="infoPanel">
+  <h3>Employee Details</h3>
+  <div class="form-row">
+    <input type="text" id="empId" placeholder="Employee ID">
+    <input type="text" id="empName" placeholder="Employee Name">
+    <input type="text" id="empDept" placeholder="Department">
   </div>
-</div>
+  <div class="btn-row">
+    <button id="addBtn">Add Employee</button>
+    <button id="updateBtn">Update Employee</button>
+    <button id="removeBtn">Remove Employee</button>
+    <button id="highlightBtn">Toggle Highlight Panel</button>
+    <button id="dimsBtn">Show Table Dimensions</button>
+  </div>
 
-<div class="controls">
-  <button id="showBtn">Show</button>
-  <button id="hideBtn">Hide</button>
-  <button id="fadeBtn">Fade</button>
-  <button id="slideBtn">Slide</button>
-  <button id="animateBtn">Animate</button>
-  <button id="stopBtn">Stop Animation</button>
-  <button id="callbackBtn">Callback</button>
-  <button id="chainBtn">Chaining</button>
-</div>
+  <table id="empTable">
+    <thead>
+      <tr><th>Employee ID</th><th>Employee Name</th><th>Department</th></tr>
+    </thead>
+    <tbody id="empBody">
+      <tr class="emp-row" data-id="101"><td>101</td><td>Riya</td><td>HR</td></tr>
+      <tr class="emp-row" data-id="102"><td>102</td><td>Arjun</td><td>IT</td></tr>
+      <tr class="emp-row" data-id="103"><td>103</td><td>Meera</td><td>Finance</td></tr>
+    </tbody>
+  </table>
 
-<div id="status"></div>
+  <div id="status"></div>
+  <div id="dims"></div>
+</div>
 
 <script>
 $(document).ready(function () {
 
-  // 1. Hide / Show
-  $('#hideBtn').on('click', function () {
-    $('#product').hide(400);
-  });
-  $('#showBtn').on('click', function () {
-    $('#product').show(400);
+  // jQuery Get: clicking a row loads its values into the text boxes
+  $('#empBody').on('click', 'tr.emp-row', function () {
+    $('tr.emp-row').removeClass('selected');
+    $(this).addClass('selected'); // CSS Classes
+
+    var cells = $(this).find('td');
+    $('#empId').val(cells.eq(0).text());
+    $('#empName').val(cells.eq(1).text());
+    $('#empDept').val(cells.eq(2).text());
+
+    $('#status').text('Selected employee details loaded.');
   });
 
-  // 2. Fade
-  $('#fadeBtn').on('click', function () {
-    $('#product').fadeToggle(500);
+  // jQuery Add
+  $('#addBtn').on('click', function () {
+    var id = $('#empId').val().trim();
+    var name = $('#empName').val().trim();
+    var dept = $('#empDept').val().trim();
+
+    if (!id || !name || !dept) {
+      $('#status').css('color', '#dc2626').text('Please fill in all fields.');
+      return;
+    }
+    if ($('tr.emp-row[data-id="' + id + '"]').length > 0) {
+      $('#status').css('color', '#dc2626').text('Employee ID already exists.');
+      return;
+    }
+
+    var row = $('<tr class="emp-row" data-id="' + id + '"><td>' + id +
+      '</td><td>' + name + '</td><td>' + dept + '</td></tr>');
+    $('#empBody').append(row);
+
+    $('#status').css('color', '#16a34a').text('Employee added successfully.');
+    clearForm();
   });
 
-  // 3. Slide
-  $('#slideBtn').on('click', function () {
-    $('#product').slideToggle(500);
+  // jQuery Set / Update
+  $('#updateBtn').on('click', function () {
+    var selected = $('tr.emp-row.selected');
+    if (selected.length === 0) {
+      $('#status').css('color', '#dc2626').text('Select an employee row first.');
+      return;
+    }
+    var name = $('#empName').val().trim();
+    var dept = $('#empDept').val().trim();
+
+    selected.find('td').eq(1).text(name);
+    selected.find('td').eq(2).text(dept);
+
+    $('#status').css('color', '#16a34a').text('Employee updated successfully.');
   });
 
-  // 4. Animate
-  $('#animateBtn').on('click', function () {
-    $('#product').animate(
-      { width: '420px', marginLeft: '20px', opacity: 0.85 },
-      1500
-    ).animate(
-      { width: '320px', marginLeft: '0px', opacity: 1 },
-      1500
-    );
+  // jQuery Remove
+  $('#removeBtn').on('click', function () {
+    var selected = $('tr.emp-row.selected');
+    if (selected.length === 0) {
+      $('#status').css('color', '#dc2626').text('Select an employee row first.');
+      return;
+    }
+    selected.remove();
+    $('#status').css('color', '#16a34a').text('Employee removed successfully.');
+    clearForm();
   });
 
-  // 5. stop()
-  $('#stopBtn').on('click', function () {
-    $('#product').stop(true, false);
-    $('#status').text('Animation stopped.');
+  // jQuery css() - dynamically change panel appearance
+  $('#highlightBtn').on('click', function () {
+    $('#infoPanel').toggleClass('panel-highlight');
+    if ($('#infoPanel').hasClass('panel-highlight')) {
+      $('#infoPanel').css('background-color', '#fff9e6');
+    } else {
+      $('#infoPanel').css('background-color', '#ffffff');
+    }
   });
 
-  // 6. Callback
-  $('#callbackBtn').on('click', function () {
-    $('#status').text('');
-    $('#product').fadeOut(600).fadeIn(600, function () {
-      $('#status').text('Animation completed successfully');
-    });
+  // jQuery Dimensions
+  $('#dimsBtn').on('click', function () {
+    var w = $('#empTable').width();
+    var h = $('#empTable').height();
+    $('#dims').text('Table width: ' + w + 'px, height: ' + h + 'px');
   });
 
-  // 7. Chaining
-  $('#chainBtn').on('click', function () {
-    $('#status').text('');
-    $('#product')
-      .slideUp(500)
-      .slideDown(500)
-      .fadeOut(500)
-      .fadeIn(500, function () {
-        $('#status').text('Chained effects completed successfully');
-      });
-  });
+  function clearForm() {
+    $('#empId, #empName, #empDept').val('');
+    $('tr.emp-row').removeClass('selected');
+  }
 
 });
 </script>

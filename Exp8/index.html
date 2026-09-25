@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lab 5 - Employee Management Dashboard</title>
+<title>Lab 6 - Employee Organization Explorer</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
   :root {
@@ -12,9 +12,11 @@
     --text: #1f2430;
     --muted: #6b7280;
     --accent: #2563eb;
-    --success: #16a34a;
-    --danger: #dc2626;
-    --selected: #eef2ff;
+    --project: #fde68a;
+    --team: #bfdbfe;
+    --self: #86efac;
+    --sibling: #ddd6fe;
+    --senior: #fca5a5;
   }
   * { box-sizing: border-box; }
   body {
@@ -28,199 +30,211 @@
     align-items: center;
   }
   h1 { font-size: 1.4rem; margin-bottom: 4px; }
-  p.sub { color: var(--muted); margin-top: 0; margin-bottom: 26px; font-size: 0.9rem; }
+  p.sub { color: var(--muted); margin-top: 0; margin-bottom: 24px; font-size: 0.9rem; text-align: center; }
 
-  .panel {
-    width: 620px;
-    max-width: 92vw;
+  .layout { display: flex; gap: 24px; max-width: 900px; width: 100%; flex-wrap: wrap; justify-content: center; }
+
+  #org {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 20px 24px;
+    padding: 18px 22px;
+    width: 420px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    transition: background 0.3s ease;
-  }
-  .panel h3 { margin: 0 0 14px 0; font-size: 1rem; }
-
-  .form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-  .form-row input {
-    flex: 1;
-    min-width: 120px;
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 0.88rem;
   }
 
-  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .project { border: 1px dashed var(--border); border-radius: 8px; padding: 10px; margin-bottom: 4px; }
+  .project > .label { font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
+  .team { border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; }
+  .team > .label { font-weight: 600; font-size: 0.83rem; color: var(--muted); margin-bottom: 6px; }
+  .employee {
+    padding: 6px 8px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-bottom: 3px;
+    border: 1px solid transparent;
+  }
+  .employee:hover { border-color: var(--accent); }
+  .employee .role { color: var(--muted); font-size: 0.75rem; }
+
+  .employee.hl-self { background: var(--self); }
+  .team.hl-team { background: var(--team); }
+  .project.hl-project { background: var(--project); }
+  .employee.hl-sibling { background: var(--sibling); }
+  .employee.hl-senior { background: var(--senior); }
+
+  .side {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn-row { display: flex; flex-direction: column; gap: 8px; }
   button {
     border: 1px solid var(--border);
     background: #fff;
     color: var(--text);
-    padding: 8px 14px;
+    padding: 9px 12px;
     border-radius: 6px;
     font-size: 0.83rem;
     cursor: pointer;
+    text-align: left;
   }
   button:hover { background: #eef2ff; border-color: var(--accent); }
-  #removeBtn { color: var(--danger); }
-  #removeBtn:hover { background: #fef2f2; border-color: var(--danger); }
-  #addBtn { background: var(--accent); color: #fff; border-color: var(--accent); }
-  #addBtn:hover { background: #1e4fbe; }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 0.88rem;
-  }
-  th, td {
-    text-align: left;
-    padding: 9px 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  th { color: var(--muted); font-weight: 600; font-size: 0.8rem; }
-  tr.emp-row { cursor: pointer; }
-  tr.emp-row:hover { background: #fafbfe; }
-  tr.selected { background: var(--selected); }
-
-  #status {
-    margin-top: 14px;
-    min-height: 18px;
+  #result {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
     font-size: 0.85rem;
-    color: var(--success);
-    font-weight: 600;
+    line-height: 1.5;
+    min-height: 90px;
   }
-  #dims {
-    margin-top: 4px;
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
+  #result .line { margin-bottom: 3px; }
+  #result .line b { color: var(--accent); }
 </style>
 </head>
 <body>
 
-<h1>Employee Management Dashboard</h1>
-<p class="sub">Lab Program 5: jQuery Get / Set / Add / Remove / CSS classes / css() / Dimensions</p>
+<h1>Employee Organization Explorer</h1>
+<p class="sub">Lab Program 6: jQuery traversing — parent(), parents(), closest(), children(), find(), siblings(), filter()</p>
 
-<div class="panel" id="infoPanel">
-  <h3>Employee Details</h3>
-  <div class="form-row">
-    <input type="text" id="empId" placeholder="Employee ID">
-    <input type="text" id="empName" placeholder="Employee Name">
-    <input type="text" id="empDept" placeholder="Department">
+<div class="layout">
+  <div id="org">
+    <div class="project" data-name="Project Alpha">
+      <div class="label">Project Alpha</div>
+
+      <div class="team" data-name="Development Team">
+        <div class="label">Development Team</div>
+        <div class="employee" data-name="Arun" data-role="Developer" data-senior="false">Arun <span class="role">- Developer</span></div>
+        <div class="employee" data-name="Kavya" data-role="Senior Developer" data-senior="true">Kavya <span class="role">- Senior Developer</span></div>
+        <div class="employee" data-name="Rahul" data-role="Developer" data-senior="false">Rahul <span class="role">- Developer</span></div>
+      </div>
+
+      <div class="team" data-name="Testing Team">
+        <div class="label">Testing Team</div>
+        <div class="employee" data-name="Meena" data-role="Tester" data-senior="false">Meena <span class="role">- Tester</span></div>
+        <div class="employee" data-name="Priya" data-role="Senior Tester" data-senior="true">Priya <span class="role">- Senior Tester</span></div>
+        <div class="employee" data-name="Karthik" data-role="Tester" data-senior="false">Karthik <span class="role">- Tester</span></div>
+      </div>
+    </div>
   </div>
-  <div class="btn-row">
-    <button id="addBtn">Add Employee</button>
-    <button id="updateBtn">Update Employee</button>
-    <button id="removeBtn">Remove Employee</button>
-    <button id="highlightBtn">Toggle Highlight Panel</button>
-    <button id="dimsBtn">Show Table Dimensions</button>
+
+  <div class="side">
+    <div class="btn-row">
+      <button id="btnParent">Show Parent Team</button>
+      <button id="btnAncestors">Show All Ancestors</button>
+      <button id="btnProjectEmp">Show Project Employees</button>
+      <button id="btnTeammates">Show Teammates</button>
+      <button id="btnSenior">Show Senior Employees</button>
+      <button id="btnReset">Reset</button>
+    </div>
+    <div id="result">Click an employee, then choose an operation.</div>
   </div>
-
-  <table id="empTable">
-    <thead>
-      <tr><th>Employee ID</th><th>Employee Name</th><th>Department</th></tr>
-    </thead>
-    <tbody id="empBody">
-      <tr class="emp-row" data-id="101"><td>101</td><td>Riya</td><td>HR</td></tr>
-      <tr class="emp-row" data-id="102"><td>102</td><td>Arjun</td><td>IT</td></tr>
-      <tr class="emp-row" data-id="103"><td>103</td><td>Meera</td><td>Finance</td></tr>
-    </tbody>
-  </table>
-
-  <div id="status"></div>
-  <div id="dims"></div>
 </div>
 
 <script>
 $(document).ready(function () {
 
-  // jQuery Get: clicking a row loads its values into the text boxes
-  $('#empBody').on('click', 'tr.emp-row', function () {
-    $('tr.emp-row').removeClass('selected');
-    $(this).addClass('selected'); // CSS Classes
+  var $selected = null;
 
-    var cells = $(this).find('td');
-    $('#empId').val(cells.eq(0).text());
-    $('#empName').val(cells.eq(1).text());
-    $('#empDept').val(cells.eq(2).text());
-
-    $('#status').text('Selected employee details loaded.');
-  });
-
-  // jQuery Add
-  $('#addBtn').on('click', function () {
-    var id = $('#empId').val().trim();
-    var name = $('#empName').val().trim();
-    var dept = $('#empDept').val().trim();
-
-    if (!id || !name || !dept) {
-      $('#status').css('color', '#dc2626').text('Please fill in all fields.');
-      return;
-    }
-    if ($('tr.emp-row[data-id="' + id + '"]').length > 0) {
-      $('#status').css('color', '#dc2626').text('Employee ID already exists.');
-      return;
-    }
-
-    var row = $('<tr class="emp-row" data-id="' + id + '"><td>' + id +
-      '</td><td>' + name + '</td><td>' + dept + '</td></tr>');
-    $('#empBody').append(row);
-
-    $('#status').css('color', '#16a34a').text('Employee added successfully.');
-    clearForm();
-  });
-
-  // jQuery Set / Update
-  $('#updateBtn').on('click', function () {
-    var selected = $('tr.emp-row.selected');
-    if (selected.length === 0) {
-      $('#status').css('color', '#dc2626').text('Select an employee row first.');
-      return;
-    }
-    var name = $('#empName').val().trim();
-    var dept = $('#empDept').val().trim();
-
-    selected.find('td').eq(1).text(name);
-    selected.find('td').eq(2).text(dept);
-
-    $('#status').css('color', '#16a34a').text('Employee updated successfully.');
-  });
-
-  // jQuery Remove
-  $('#removeBtn').on('click', function () {
-    var selected = $('tr.emp-row.selected');
-    if (selected.length === 0) {
-      $('#status').css('color', '#dc2626').text('Select an employee row first.');
-      return;
-    }
-    selected.remove();
-    $('#status').css('color', '#16a34a').text('Employee removed successfully.');
-    clearForm();
-  });
-
-  // jQuery css() - dynamically change panel appearance
-  $('#highlightBtn').on('click', function () {
-    $('#infoPanel').toggleClass('panel-highlight');
-    if ($('#infoPanel').hasClass('panel-highlight')) {
-      $('#infoPanel').css('background-color', '#fff9e6');
-    } else {
-      $('#infoPanel').css('background-color', '#ffffff');
-    }
-  });
-
-  // jQuery Dimensions
-  $('#dimsBtn').on('click', function () {
-    var w = $('#empTable').width();
-    var h = $('#empTable').height();
-    $('#dims').text('Table width: ' + w + 'px, height: ' + h + 'px');
-  });
-
-  function clearForm() {
-    $('#empId, #empName, #empDept').val('');
-    $('tr.emp-row').removeClass('selected');
+  function clearHighlights() {
+    $('.employee').removeClass('hl-self hl-sibling hl-senior');
+    $('.team').removeClass('hl-team');
+    $('.project').removeClass('hl-project');
   }
+
+  function log(html) {
+    $('#result').html(html);
+  }
+
+  // Select Employee
+  $('.employee').on('click', function () {
+    clearHighlights();
+    $selected = $(this);
+    $selected.addClass('hl-self');
+    log('<div class="line"><b>Selected Employee:</b> ' + $selected.data('name') + '</div>' +
+        '<div class="line">' + $selected.data('role') + '</div>');
+  });
+
+  // Show Parent Team (closest team ancestor)
+  $('#btnParent').on('click', function () {
+    if (!$selected) return log('Select an employee first.');
+    var $team = $selected.closest('.team');
+    clearHighlights();
+    $selected.addClass('hl-self');
+    $team.addClass('hl-team');
+    log('<div class="line"><b>Parent Team:</b> ' + $team.data('name') + '</div>');
+  });
+
+  // Show All Ancestors (team + project via parents())
+  $('#btnAncestors').on('click', function () {
+    if (!$selected) return log('Select an employee first.');
+    var $ancestors = $selected.parents('.team, .project');
+    clearHighlights();
+    $selected.addClass('hl-self');
+    $ancestors.each(function () {
+      (this).addClass((this).hasClass('team') ? 'hl-team' : 'hl-project');
+    });
+    var $team = $selected.closest('.team');
+    var $project = $selected.closest('.project');
+    log('<div class="line"><b>Team:</b> ' + $team.data('name') + '</div>' +
+        '<div class="line"><b>Project:</b> ' + $project.data('name') + '</div>');
+  });
+
+  // Show Project Employees (descendants via find())
+  $('#btnProjectEmp').on('click', function () {
+    var $project = $('.project');
+    var $employees = $project.find('.employee');
+    clearHighlights();
+    $project.addClass('hl-project');
+    var names = [];
+    $employees.each(function () {
+      $(this).addClass('hl-sibling');
+      names.push($(this).data('name'));
+    });
+    log('<div class="line"><b>Project Employees:</b> ' + names.join(', ') + '</div>');
+  });
+
+  // Show Teammates (siblings())
+  $('#btnTeammates').on('click', function () {
+    if (!$selected) return log('Select an employee first.');
+    var $team = $selected.closest('.team');
+    var $siblings = $selected.siblings('.employee');
+    clearHighlights();
+    $selected.addClass('hl-self');
+    $team.addClass('hl-team');
+    var names = [];
+    $siblings.each(function () {
+      $(this).addClass('hl-sibling');
+      names.push($(this).data('name'));
+    });
+    log('<div class="line"><b>Team:</b> ' + $team.data('name') + '</div>' +
+        '<div class="line"><b>Teammates:</b> ' + (names.length ? names.join(', ') : 'None') + '</div>');
+  });
+
+  // Show Senior Employees (filter())
+  $('#btnSenior').on('click', function () {
+    var $seniors = $('.employee').filter(function () {
+      return $(this).data('senior') === true;
+    });
+    clearHighlights();
+    var names = [];
+    $seniors.each(function () {
+      $(this).addClass('hl-senior');
+      names.push($(this).data('name'));
+    });
+    log('<div class="line"><b>Senior Employees:</b> ' + names.join(', ') + '</div>');
+  });
+
+  // Reset
+  $('#btnReset').on('click', function () {
+    clearHighlights();
+    $selected = null;
+    log('Click an employee, then choose an operation.');
+  });
 
 });
 </script>

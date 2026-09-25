@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Calculator App</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1f2933, #3a4756);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 20px;
+  }
+  .card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.35);
+    width: 420px;
+    max-width: 100%;
+    padding: 30px 32px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    color: #1f2933;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #7b8794;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #3a4756;
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+  input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd2d9;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="number"]:focus { border-color: #4a90d9; }
+  .divider {
+    margin: 20px 0 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #616e7c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .row { display: flex; gap: 12px; }
+  .row > div { flex: 1; }
+  button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2e6de0;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button:hover { background: #244f9e; }
+  .results {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .result-box {
+    background: #f4f6f8;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .result-box span.label {
+    display: block;
+    font-size: 12px;
+    color: #7b8794;
+    margin-bottom: 4px;
+  }
+  .result-box span.value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2933;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Budget Calculator App</h1>
+  <p class="subtitle">Enter the amount you want to manage</p>
+
+  <label for="amount">Amount (Rs.)</label>
+  <input type="number" id="amount" placeholder="e.g. 15000">
+
+  <div class="divider">How would you like to divide your money?</div>
+
+  <div class="row">
+    <div>
+      <label for="rent">Room Rent (%)</label>
+      <input type="number" id="rent" placeholder="50">
+    </div>
+    <div>
+      <label for="accessories">Accessories (%)</label>
+      <input type="number" id="accessories" placeholder="20">
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <label for="emergency">Emergency (%)</label>
+      <input type="number" id="emergency" placeholder="20">
+    </div>
+    <div>
+      <label for="saving">Saving (%)</label>
+      <input type="number" id="saving" placeholder="10">
+    </div>
+  </div>
+
+  <button id="evaluateBtn">Evaluate My Money</button>
+
+  <div class="results">
+    <div class="result-box">
+      <span class="label">Room Rent</span>
+      <span class="value" id="rentResult">Rs.0</span>
+    </div>
+    <div class="result-box">
+      <span class="label">Accessories</span>
+      <span class="value" id="accessoriesResult">Rs.0</span>
+    </div>
+    <div class="result-box">
+      <span class="label">Emergency</span>
+      <span class="value" id="emergencyResult">Rs.0</span>
+    </div>
+    <div class="result-box">
+      <span class="label">Saving</span>
+      <span class="value" id="savingResult">Rs.0</span>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function () {
+  $('#evaluateBtn').click(function () {
+    let amount = parseFloat($('#amount').val());
+    let rent = parseFloat($('#rent').val());
+    let accessories = parseFloat($('#accessories').val());
+    let emergency = parseFloat($('#emergency').val());
+    let saving = parseFloat($('#saving').val());
+
+    if (isNaN(amount) || isNaN(rent) || isNaN(accessories) || isNaN(emergency) || isNaN(saving)) {
+      alert('Please fill in all the fields with valid numbers.');
+      return;
+    }
+
+    let totalPercent = rent + accessories + emergency + saving;
+
+    if (totalPercent !== 100) {
+      alert('The percentages must add up to 100%. Currently they add up to ' + totalPercent + '%.');
+      return;
+    }
+
+    let rentAmount = (amount * rent) / 100;
+    let accessoriesAmount = (amount * accessories) / 100;
+    let emergencyAmount = (amount * emergency) / 100;
+    let savingAmount = (amount * saving) / 100;
+
+    $('#rentResult').text('Rs.' + rentAmount.toFixed(2));
+    $('#accessoriesResult').text('Rs.' + accessoriesAmount.toFixed(2));
+    $('#emergencyResult').text('Rs.' + emergencyAmount.toFixed(2));
+    $('#savingResult').text('Rs.' + savingAmount.toFixed(2));
+  });
+});
+</script>
+
+</body>
+</html>

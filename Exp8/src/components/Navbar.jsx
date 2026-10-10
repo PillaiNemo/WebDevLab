@@ -32,7 +32,7 @@ function Navbar({ darkMode, toggleTheme }) {
         >
           {darkMode ? "☀️" : "🌙"}
         </button>
-        <div className="avatar">AK</div>
+        <div className="avatar">NP</div>
         <button
           className="icon-btn menu-btn"
           onClick={() => setMenuOpen(!menuOpen)}

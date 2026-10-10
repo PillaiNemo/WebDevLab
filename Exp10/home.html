@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration Form</title>
+  <style>
+    body { font-family: "Times New Roman", serif; color: #1a1aff; }
+    h1 { text-align: center; text-shadow: 1px 1px 2px #999; }
+    table { margin: 0 auto; border-spacing: 12px; }
+    .req { color: red; }
+  </style>
+</head>
+<body>
+  <h1>User Registration Form</h1>
+  <form action="/server" method="post" onsubmit="return checkSkills()">
+    <table>
+      <tr>
+        <td>Name<span class="req">*</span></td>
+        <td><input type="text" name="name" required></td>
+      </tr>
+      <tr>
+        <td>Password<span class="req">*</span></td>
+        <td><input type="password" name="password" minlength="6" required></td>
+      </tr>
+      <tr>
+        <td>Age<span class="req">*</span></td>
+        <td><input type="number" name="age" min="1" max="120" required></td>
+      </tr>
+      <tr>
+        <td>Mobile Number<span class="req">*</span></td>
+        <td><input type="text" name="mobile" pattern="[0-9]{10}" title="Enter a 10 digit mobile number" required></td>
+      </tr>
+      <tr>
+        <td>Email<span class="req">*</span></td>
+        <td><input type="email" name="email" required></td>
+      </tr>
+      <tr>
+        <td>Gender<span class="req">*</span></td>
+        <td>
+          <input type="radio" name="gender" value="Male" required> Male
+          <input type="radio" name="gender" value="Female"> Female
+        </td>
+      </tr>
+      <tr>
+        <td>State<span class="req">*</span></td>
+        <td>
+          <select name="state" required>
+            <option value="">-- Select --</option>
+            <option>Kerala</option>
+            <option>Tamil Nadu</option>
+            <option>Karnataka</option>
+            <option>Andhra Pradesh</option>
+            <option>Telangana</option>
+            <option>Maharashtra</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Skills<span class="req">*</span></td>
+        <td>
+          <input type="checkbox" name="skills" value="Java Script"> Java Script
+          <input type="checkbox" name="skills" value="Python"> Python
+          <input type="checkbox" name="skills" value="C++"> C++
+          <input type="checkbox" name="skills" value="Java"> Java
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button type="submit">Submit</button></td>
+      </tr>
+    </table>
+  </form>
+
+  <script>
+    function checkSkills() {
+      var boxes = document.querySelectorAll('input[name="skills"]:checked');
+      if (boxes.length === 0) {
+        alert("Please select at least one skill.");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+</html>

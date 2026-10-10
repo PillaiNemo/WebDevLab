@@ -1,20 +1,45 @@
+import { useState } from "react";
+
 function Navbar({ darkMode, toggleTheme }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const links = ["Home", "Courses", "Tasks", "Profile"];
+
   return (
     <nav className="navbar">
-      <h2>🎓 EduDashboard</h2>
-
-      <div className="nav-links">
-        <a href="#home">Home</a>
-        <a href="#courses">Courses</a>
-        <a href="#tasks">Tasks</a>
-        <a href="#profile">Profile</a>
+      <div className="logo">
+        <span className="logo-icon">🎓</span>
+        <h2>EduDashboard</h2>
       </div>
 
-      <div className="nav-right">
-        <button className="profile-btn" onClick={toggleTheme}>
-          {darkMode ? "☀️ Light" : "🌙 Dark"}
+      <div className={menuOpen ? "nav-links open" : "nav-links"}>
+        {links.map((link) => (
+          <a
+            key={link}
+            href={`#${link.toLowerCase()}`}
+            onClick={() => setMenuOpen(false)}
+          >
+            {link}
+          </a>
+        ))}
+      </div>
+
+      <div className="nav-actions">
+        <button
+          className="icon-btn"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          title="Toggle theme"
+        >
+          {darkMode ? "☀️" : "🌙"}
         </button>
-        <img className="avatar" src="./images/profile.jpg" alt="Student profile" />
+        <div className="avatar">AK</div>
+        <button
+          className="icon-btn menu-btn"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
       </div>
     </nav>
   );

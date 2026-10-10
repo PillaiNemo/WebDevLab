@@ -1,0 +1,66 @@
+// MongoDB Lab - Practicum No. 9
+// Database: collegeDB, Collection: students
+
+use collegeDB
+db.students.drop()
+
+// Task 1: Insert 10 student documents
+db.students.insertMany([
+{ rollno: 101, name: "Arun", department: "CSE", year: 3, marks: 85 },
+{ rollno: 102, name: "Priya", department: "ECE", year: 3, marks: 92 },
+{ rollno: 103, name: "Karthik", department: "CSE", year: 2, marks: 78 },
+{ rollno: 104, name: "Meena", department: "EEE", year: 3, marks: 88 },
+{ rollno: 105, name: "Rahul", department: "CSE", year: 4, marks: 67 },
+{ rollno: 106, name: "Divya", department: "CSE", year: 3, marks: 81 },
+{ rollno: 107, name: "Suresh", department: "ECE", year: 2, marks: 74 },
+{ rollno: 108, name: "Lakshmi", department: "EEE", year: 4, marks: 90 },
+{ rollno: 109, name: "Vignesh", department: "CSE", year: 3, marks: 69 },
+{ rollno: 110, name: "Anitha", department: "ECE", year: 3, marks: 95 }
+])
+
+// Task 2: Display all students
+db.students.find()
+
+// Task 3: Display students belonging to CSE
+db.students.find({ department: "CSE" })
+
+// Task 4: Find students having marks greater than 80
+db.students.find({ marks: { $gt: 80 } })
+
+// Task 5: Display only student name and marks
+db.students.find({}, { name: 1, marks: 1, _id: 0 })
+
+// Task 6: Find students belonging to CSE and third year
+db.students.find({ department: "CSE", year: 3 })
+
+// Task 7: Find students belonging to CSE or ECE
+db.students.find({ $or: [ { department: "CSE" }, { department: "ECE" } ] })
+
+// Task 8: Sort students based on marks
+db.students.find().sort({ marks: 1 })
+
+// Task 9: Display the top three students based on marks
+db.students.find().sort({ marks: -1 }).limit(3)
+
+// Task 10: Count the number of CSE students
+db.students.countDocuments({ department: "CSE" })
+
+// Task 11: Update the marks of one student
+db.students.updateOne({ rollno: 101 }, { $set: { marks: 90 } })
+db.students.find({ rollno: 101 })
+
+// Task 12: Add a status field to all CSE students
+db.students.updateMany({ department: "CSE" }, { $set: { status: "Active" } })
+db.students.find({ department: "CSE" })
+
+// Task 13: Delete a student using roll number
+db.students.deleteOne({ rollno: 105 })
+db.students.find()
+
+// Task 14: Display the distinct departments
+db.students.distinct("department")
+
+// Task 15: Calculate department-wise average marks
+db.students.aggregate([
+{ $group: { _id: "$department", averageMarks: { $avg: "$marks" } } }
+])

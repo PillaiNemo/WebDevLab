@@ -24,18 +24,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build Exp8 React app
-        working-directory: Exp8
-        run: |
-          npm install
-          npm run build
-
-      - name: Assemble the full site
+      - name: Build and assemble the site
         run: |
           mkdir _site
-          rsync -a --exclude='.git' --exclude='.github' --exclude='_site' --exclude='Exp8' ./ _site/
-          mkdir _site/Exp8
-          cp -r Exp8/dist/. _site/Exp8/
+          rsync -a --exclude='.git' --exclude='.github' --exclude='_site' ./ _site/
+          for dir in */ ; do
+            dir=${dir%/}
+            if [ -f "$dir/package.json" ]; then
+              echo "Building $dir"
+              (cd "$dir" && npm install && npm run build)
+              rm -rf "_site/$dir"
+              mkdir -p "_site/$dir"
+              cp -r "$dir/dist/." "_site/$dir/"
+            fi
+          done
 
       - uses: actions/upload-pages-artifact@v3
         with:

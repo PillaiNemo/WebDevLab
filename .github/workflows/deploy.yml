@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy site to GitHub Pages
 
 on:
   push:
@@ -19,14 +19,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install
-      - run: npm run build
+
+      - name: Build Exp8 React app
+        working-directory: Exp8
+        run: |
+          npm install
+          npm run build
+
+      - name: Assemble the full site
+        run: |
+          mkdir _site
+          rsync -a --exclude='.git' --exclude='.github' --exclude='_site' --exclude='Exp8' ./ _site/
+          mkdir _site/Exp8
+          cp -r Exp8/dist/. _site/Exp8/
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: _site
 
   deploy:
     needs: build

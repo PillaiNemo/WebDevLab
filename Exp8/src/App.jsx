@@ -57,13 +57,13 @@ function App() {
       <main className="dashboard">
         <section className="welcome" id="home">
           <div>
-            <h1>Welcome Back, Arun! 👋</h1>
+            <h1>Welcome Back, Namrata! 👋</h1>
             <p>Here is your academic overview for this semester.</p>
           </div>
           <div className="profile-chip" id="profile">
             <div className="avatar large">AK</div>
             <div>
-              <strong>Arun Kumar</strong>
+              <strong>Namrata Pillai</strong>
               <span>CSE • Year 3 • Roll No. 101</span>
             </div>
           </div>
